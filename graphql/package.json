@@ -1,0 +1,21 @@
+{
+  "name": "graphql",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "ts-node-dev src/index.ts",
+    "start": "ts-node src/index.ts"
+  },
+  "dependencies": {
+    "axios": "^0.18.0",
+    "graphql-yoga": "^1.17.4",
+    "http-proxy-middleware": "^0.19.1",
+    "ts-node": "^8.0.3",
+    "typescript": "^3.3.3333"
+  },
+  "devDependencies": {
+    "@types/node": "^11.10.5",
+    "@types/http-proxy-middleware": "^0.19.2",
+    "ts-node-dev": "^1.0.0-pre.32"
+  }
+}

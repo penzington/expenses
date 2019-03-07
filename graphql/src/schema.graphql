@@ -1,0 +1,34 @@
+type Query {
+  expenses(skip: Int = 0, first: Int = 10): [Expense!]!
+  expense(id: ID!): Expense
+}
+
+type Mutation {
+  commentOnExpense(id: ID!, comment: String!): Expense!
+}
+
+type User {
+  first: String!
+  last: String!
+  email: String!
+}
+
+type Amount {
+  value: String!
+  currency: String!
+}
+
+type Receipt {
+  url: String!
+}
+
+type Expense {
+  id: ID!
+  date: String!
+  merchant: String!
+  comment: String!
+  category: String!
+  user: User!
+  amount: Amount!
+  receipts: [Receipt!]!
+}
