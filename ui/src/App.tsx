@@ -1,7 +1,9 @@
 import React from "react";
 import { useQuery } from "urql";
+import gql from "graphql-tag";
+import { GetExpensesQuery } from "./generated/types";
 
-const getExpenses = `
+const getExpenses = gql`
   query GetExpenses($skip: Int!) {
     expenses(skip: $skip) {
       id
@@ -11,7 +13,7 @@ const getExpenses = `
 `;
 
 const ExpensesList = ({ skip = 10 }) => {
-  const [res] = useQuery({
+  const [res] = useQuery<GetExpensesQuery>({
     query: getExpenses,
     variables: { skip }
   });
