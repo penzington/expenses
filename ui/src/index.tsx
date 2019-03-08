@@ -4,9 +4,12 @@ import { Provider, createClient } from "urql";
 import App from "./App";
 import "./index.css";
 
-const client = createClient({
-  url: "http://localhost:8000/graphql"
-});
+const apiUrl = process.env.REACT_APP_GRAPHQL_URL;
+if (!apiUrl) {
+  throw new Error("Missing API url!");
+}
+
+const client = createClient({ url: apiUrl });
 
 ReactDOM.render(
   <Provider value={client}>
