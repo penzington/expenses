@@ -1,6 +1,9 @@
 import React from "react";
 import styled, { keyframes } from "styled-components";
-import { Loader as LoaderIcon } from "react-feather";
+import {
+  Loader as LoaderIcon,
+  AlertTriangle as AlertIcon
+} from "react-feather";
 import { GetExpenseExpense as Expense } from "./generated/types";
 import Uploader from "./ReceiptUploader";
 import Button from "./Button";
@@ -43,6 +46,16 @@ const Loader = styled.div`
   min-height: 5rem;
 `;
 
+const Failed = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 5rem;
+  svg {
+    margin-right: 1rem;
+  }
+`;
+
 type ExpenseDetailsProps = {
   saveComment: (comment: string) => void;
   onUploadComplete: () => void;
@@ -57,7 +70,8 @@ function ExpenseDetails({
   onUploadComplete,
   expense,
   isLoading,
-  hasFailed
+  hasFailed,
+  hasFailedSaving
 }: ExpenseDetailsProps) {
   const [comment, setComment] = React.useState(expense ? expense.comment : "");
 
@@ -70,37 +84,41 @@ function ExpenseDetails({
   }
 
   if (hasFailed) {
-    return <span>Oh no!</span>;
+    return (
+      <Failed>
+        <AlertIcon /> Failed to load details
+      </Failed>
+    );
   }
 
   return (
     <div>
-      <label>
-        <LabelText>Receipts</LabelText>
-        <Uploader
-          id={expense.id}
-          onUploadComplete={onUploadComplete}
-          uploaded={expense.receipts}
-        />
-      </label>
-      <label>
-        <LabelText>Comment</LabelText>
-        <form
-          onSubmit={e => {
-            e.preventDefault();
-            saveComment(comment);
-          }}
-        >
+      <LabelText>Receipts</LabelText>
+      <Uploader
+        id={expense.id}
+        onUploadComplete={onUploadComplete}
+        uploaded={expense.receipts}
+      />
+
+      <form
+        onSubmit={e => {
+          e.preventDefault();
+          saveComment(comment);
+        }}
+      >
+        <label>
+          <LabelText>Comment</LabelText>
           <CommentInput
             name="comment"
             defaultValue={expense.comment}
             onChange={e => setComment(e.target.value)}
           />
-          <Button type="submit" disabled={comment === expense.comment}>
-            Save Comment
-          </Button>
-        </form>
-      </label>
+        </label>
+        <Button type="submit" disabled={comment === expense.comment}>
+          Save Comment
+        </Button>
+        {hasFailedSaving && <p>Saving comment failed! Please, try again</p>}
+      </form>
     </div>
   );
 }

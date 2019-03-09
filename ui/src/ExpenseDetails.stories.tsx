@@ -21,6 +21,14 @@ const props = {
   hasFailedSaving: false
 };
 
-storiesOf("ExpenseDetails", module).add("default", () => (
-  <ExpenseDetails {...props} />
-));
+storiesOf("ExpenseDetails", module)
+  .add("default", () => <ExpenseDetails {...props} />)
+  .add("with receipts", () => (
+    <ExpenseDetails
+      {...props}
+      expense={{ ...props.expense, receipts: [{ url: "/receipts/1.jpg" }] }}
+    />
+  ))
+  .add("loading", () => <ExpenseDetails {...props} isLoading />)
+  .add("failed", () => <ExpenseDetails {...props} hasFailed />)
+  .add("failed saving", () => <ExpenseDetails {...props} hasFailedSaving />);

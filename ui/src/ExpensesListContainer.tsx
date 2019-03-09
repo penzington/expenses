@@ -30,7 +30,10 @@ const PAGE_SIZE = 10;
 
 function ExpensesListContainer() {
   const [skip, setSkip] = React.useState(0);
-  const [res] = useQuery<GetExpensesQuery, GetExpensesVariables>({
+  const [res, refetchExpenses] = useQuery<
+    GetExpensesQuery,
+    GetExpensesVariables
+  >({
     query: getExpensesQuery,
     variables: { skip, first: PAGE_SIZE }
   });
@@ -38,6 +41,7 @@ function ExpensesListContainer() {
   return (
     <ExpensesList
       pageSize={PAGE_SIZE}
+      onRetry={refetchExpenses}
       expenses={!!res.data ? res.data.expenses.nodes : []}
       hasNextPage={!!res.data && skip + PAGE_SIZE < res.data.expenses.count}
       hasPrevPage={skip > 0}

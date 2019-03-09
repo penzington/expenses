@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import { AlertTriangle as AlertIcon } from "react-feather";
 import { GetExpensesNodes as ExpenseListItem } from "./generated/types";
 import ExpensesListItem from "./ExpensesListItem";
 import Button from "./Button";
@@ -19,12 +20,27 @@ const List = styled.ul`
   padding: 0;
 `;
 
+const Failed = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 5rem;
+  svg {
+    margin-right: 1rem;
+  }
+`;
+
+const RetryButton = styled(Button)`
+  margin-left: 1rem;
+`;
+
 type ExpensesListProps = {
   pageSize: number;
   hasNextPage: boolean;
   hasPrevPage: boolean;
   getNextPage: () => void;
   getPrevPage: () => void;
+  onRetry: () => void;
   expenses: ExpenseListItem[];
   isLoading: boolean;
   hasFailed: boolean;
@@ -36,12 +52,18 @@ function ExpensesList({
   hasPrevPage,
   getNextPage,
   getPrevPage,
+  onRetry,
   expenses,
   isLoading,
   hasFailed
 }: ExpensesListProps) {
   if (hasFailed) {
-    return <span>Oh no!</span>;
+    return (
+      <Failed>
+        <AlertIcon /> Failed to load expenses.
+        <RetryButton onClick={onRetry}>Try again</RetryButton>
+      </Failed>
+    );
   }
 
   if (isLoading) {

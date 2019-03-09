@@ -20,6 +20,9 @@ const ReceiptImage = styled.a`
   padding: 0.5rem;
   img {
     width: 100%;
+    min-width: 3rem;
+    min-height: 3rem;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
   }
 `;
 
