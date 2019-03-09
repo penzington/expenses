@@ -1,6 +1,47 @@
 import React from "react";
+import styled, { keyframes } from "styled-components";
+import { Loader as LoaderIcon } from "react-feather";
 import { GetExpenseExpense as Expense } from "./generated/types";
 import Uploader from "./ReceiptUploader";
+import Button from "./Button";
+
+const LabelText = styled.div`
+  margin: 0.5rem 0;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+`;
+
+const CommentInput = styled.textarea`
+  border: 1px solid #dae1e7;
+  background: white;
+  border-radius: 1rem;
+  width: 100%;
+  padding: 1rem;
+  font-size: 1.3rem;
+  font-family: inherit;
+  color: inherit;
+  min-height: 5rem;
+  margin-bottom: 0.5rem;
+`;
+
+const rotate = keyframes`
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+`;
+
+const Loader = styled.div`
+  animation: ${rotate} 2s linear infinite;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 5rem;
+`;
 
 type ExpenseDetailsProps = {
   saveComment: (comment: string) => void;
@@ -18,8 +59,14 @@ function ExpenseDetails({
   isLoading,
   hasFailed
 }: ExpenseDetailsProps) {
+  const [comment, setComment] = React.useState(expense ? expense.comment : "");
+
   if (isLoading || !expense) {
-    return <span>Loading...</span>;
+    return (
+      <Loader>
+        <LoaderIcon />
+      </Loader>
+    );
   }
 
   if (hasFailed) {
@@ -28,22 +75,32 @@ function ExpenseDetails({
 
   return (
     <div>
-      {expense.receipts.map(receipt => (
-        <img
-          src={`${process.env.REACT_APP_API_URL}${receipt.url}`}
-          key={receipt.url}
+      <label>
+        <LabelText>Receipts</LabelText>
+        <Uploader
+          id={expense.id}
+          onUploadComplete={onUploadComplete}
+          uploaded={expense.receipts}
         />
-      ))}
-      <Uploader id={expense.id} onUploadComplete={onUploadComplete} />
-      <form
-        onSubmit={e => {
-          e.preventDefault();
-          saveComment(e.currentTarget.comment.value);
-        }}
-      >
-        <textarea name="comment" defaultValue={expense.comment} />
-        <button type="submit">OK!</button>
-      </form>
+      </label>
+      <label>
+        <LabelText>Comment</LabelText>
+        <form
+          onSubmit={e => {
+            e.preventDefault();
+            saveComment(comment);
+          }}
+        >
+          <CommentInput
+            name="comment"
+            defaultValue={expense.comment}
+            onChange={e => setComment(e.target.value)}
+          />
+          <Button type="submit" disabled={comment === expense.comment}>
+            Save Comment
+          </Button>
+        </form>
+      </label>
     </div>
   );
 }

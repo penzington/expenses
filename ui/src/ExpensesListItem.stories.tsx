@@ -16,6 +16,6 @@ const props = {
   date: "2018-09-10T02:11:29.184Z"
 };
 
-storiesOf("ExpensesListItem", module).add("default", () => (
-  <ExpensesListItem {...props} />
-));
+storiesOf("ExpensesListItem", module)
+  .add("default", () => <ExpensesListItem {...props} />)
+  .add("skeleton", () => <ExpensesListItem {...props} isSkeleton />);

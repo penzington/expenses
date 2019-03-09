@@ -1,9 +1,39 @@
 import React from "react";
 import { useDropzone } from "react-dropzone";
+import styled from "styled-components";
+import { GetExpenseReceipts as Receipt } from "./generated/types";
 
-type ReceiptUploaderProps = { id: string; onUploadComplete: () => void };
+const Dropzone = styled.div<{ draggedOver: boolean; isEmpty: boolean }>`
+  border: 2px dashed #3490dc;
+  margin-bottom: 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: ${props => (!props.isEmpty ? "flex-start" : "center")};
+  align-items: center;
+  min-height: 6rem;
+  background-color: ${props => (props.draggedOver ? "#EFF8FF" : "transparent")};
+`;
 
-function ReceiptUploader({ id, onUploadComplete }: ReceiptUploaderProps) {
+const ReceiptImage = styled.a`
+  display: block;
+  max-width: 25%;
+  padding: 0.5rem;
+  img {
+    width: 100%;
+  }
+`;
+
+type ReceiptUploaderProps = {
+  id: string;
+  onUploadComplete: () => void;
+  uploaded: Receipt[];
+};
+
+function ReceiptUploader({
+  id,
+  onUploadComplete,
+  uploaded
+}: ReceiptUploaderProps) {
   const uploadUrl = `${process.env.REACT_APP_API_URL}/upload/${id}/receipts`;
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
@@ -17,10 +47,32 @@ function ReceiptUploader({ id, onUploadComplete }: ReceiptUploaderProps) {
   });
 
   return (
-    <div {...getRootProps()}>
+    <Dropzone
+      {...getRootProps()}
+      draggedOver={isDragActive}
+      isEmpty={!uploaded.length}
+    >
+      {uploaded.map(upload => (
+        <ReceiptImage
+          href={`${process.env.REACT_APP_API_URL}${upload.url}`}
+          target="_blank"
+          onClick={e => e.stopPropagation()}
+        >
+          <img
+            src={`${process.env.REACT_APP_API_URL}${upload.url}`}
+            key={upload.url}
+          />
+        </ReceiptImage>
+      ))}
       <input {...getInputProps()} accept="image/*;capture=camera" />
-      {isDragActive ? <p>Drop it! 🙈</p> : <p>Drag and drop or click!</p>}
-    </div>
+      {!uploaded.length && (
+        <p>
+          {isDragActive
+            ? "Go on, drop it!"
+            : "Drag and drop or click to upload."}
+        </p>
+      )}
+    </Dropzone>
   );
 }
 

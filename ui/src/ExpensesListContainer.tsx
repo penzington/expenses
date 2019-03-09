@@ -37,6 +37,7 @@ function ExpensesListContainer() {
 
   return (
     <ExpensesList
+      pageSize={PAGE_SIZE}
       expenses={!!res.data ? res.data.expenses.nodes : []}
       hasNextPage={!!res.data && skip + PAGE_SIZE < res.data.expenses.count}
       hasPrevPage={skip > 0}
