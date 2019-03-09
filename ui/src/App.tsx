@@ -1,12 +1,17 @@
 import React from "react";
-import { useQuery } from "urql";
+import { useQuery, useMutation } from "urql";
 import gql from "graphql-tag";
-import { GetExpensesQuery } from "./generated/types";
+import {
+  GetExpensesQuery as GetExpensesQueryResponse,
+  GetExpensesVariables,
+  CommentOnExpenseVariables,
+  CommentOnExpenseMutation
+} from "./generated/types";
 import Uploader from "./Uploader";
 
-const getExpenses = gql`
-  query GetExpenses($skip: Int!) {
-    expenses(skip: $skip) {
+const getExpensesQuery = gql`
+  query GetExpenses($skip: Int!, $first: Int) {
+    expenses(skip: $skip, first: $first) {
       count
       nodes {
         id
@@ -16,12 +21,44 @@ const getExpenses = gql`
   }
 `;
 
+const commentOnExpenseMutation = gql`
+  mutation CommentOnExpense($id: ID!, $comment: String!) {
+    commentOnExpense(id: $id, comment: $comment) {
+      id
+      comment
+    }
+  }
+`;
+
+function ExpenseComment({ id }: { id: string }) {
+  const [res, executeMutation] = useMutation<
+    CommentOnExpenseMutation,
+    CommentOnExpenseVariables
+  >(commentOnExpenseMutation);
+
+  if (res.error) {
+    return <span>Oh no!</span>;
+  }
+
+  return (
+    <form
+      onSubmit={e => {
+        e.preventDefault();
+        executeMutation({ comment: e.currentTarget.comment.value, id });
+      }}
+    >
+      <textarea name="comment" />
+      <button type="submit">OK!</button>
+    </form>
+  );
+}
+
 const PAGE_SIZE = 10;
 const ExpensesList = () => {
   const [skip, setSkip] = React.useState(0);
-  const [res] = useQuery<GetExpensesQuery>({
-    query: getExpenses,
-    variables: { skip }
+  const [res] = useQuery<GetExpensesQueryResponse, GetExpensesVariables>({
+    query: getExpensesQuery,
+    variables: { skip, first: PAGE_SIZE }
   });
 
   if (res.fetching || res.data === undefined) {
@@ -33,9 +70,10 @@ const ExpensesList = () => {
   return (
     <>
       <ul>
-        {res.data.expenses.nodes.map(({ id }: { id: string }) => (
+        {res.data.expenses.nodes.map(({ id, comment }) => (
           <li key={id}>
-            {id} <Uploader id={id} />
+            {id}: {comment}
+            <Uploader id={id} /> <ExpenseComment id={id} />
           </li>
         ))}
       </ul>

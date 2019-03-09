@@ -6,6 +6,7 @@ export type Maybe<T> = T | null;
 
 export type GetExpensesVariables = {
   skip: number;
+  first?: Maybe<number>;
 };
 
 export type GetExpensesQuery = {
@@ -23,6 +24,25 @@ export type GetExpensesExpenses = {
 };
 
 export type GetExpensesNodes = {
+  __typename?: "Expense";
+
+  id: string;
+
+  comment: string;
+};
+
+export type CommentOnExpenseVariables = {
+  id: string;
+  comment: string;
+};
+
+export type CommentOnExpenseMutation = {
+  __typename?: "Mutation";
+
+  commentOnExpense: CommentOnExpenseCommentOnExpense;
+};
+
+export type CommentOnExpenseCommentOnExpense = {
   __typename?: "Expense";
 
   id: string;
