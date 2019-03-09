@@ -16,8 +16,8 @@ const Controls = styled.div`
 `;
 
 const List = styled.ul`
-  margin: 0;
   padding: 0;
+  margin: 1rem;
 `;
 
 const Failed = styled.div`
@@ -78,7 +78,9 @@ function ExpensesList({
         currency: "x".repeat(3)
       },
       merchant: "x".repeat(10),
-      date: "2018-09-10T02:11:29.184Z"
+      date: "2018-09-10T02:11:29.184Z",
+      receipts: [],
+      comment: ""
     }));
   }
 

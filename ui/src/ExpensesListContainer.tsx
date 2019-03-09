@@ -21,6 +21,10 @@ const getExpensesQuery = gql`
         }
         merchant
         date
+        comment
+        receipts {
+          url
+        }
       }
     }
   }
@@ -35,6 +39,7 @@ function ExpensesListContainer() {
     GetExpensesVariables
   >({
     query: getExpensesQuery,
+    requestPolicy: "cache-and-network",
     variables: { skip, first: PAGE_SIZE }
   });
 

@@ -1,5 +1,12 @@
 html {
   box-sizing: border-box;
+  font-size: 12px;
+}
+
+@media screen and (min-width: 25em) {
+  html {
+    font-size: calc(12px + (14 - 12) * (100vw - 400px) / (800 - 400));
+  }
 }
 
 *,

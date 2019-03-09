@@ -92,6 +92,10 @@ export type GetExpensesNodes = {
   merchant: string;
 
   date: string;
+
+  comment: string;
+
+  receipts: GetExpensesReceipts[];
 };
 
 export type GetExpensesUser = {
@@ -108,4 +112,10 @@ export type GetExpensesAmount = {
   value: string;
 
   currency: string;
+};
+
+export type GetExpensesReceipts = {
+  __typename?: "Receipt";
+
+  url: string;
 };

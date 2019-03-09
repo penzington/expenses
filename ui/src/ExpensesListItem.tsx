@@ -6,7 +6,9 @@ import {
   Hash as HashIcon,
   Calendar as CalendarIcon,
   ChevronsDown as ChevronsDownIcon,
-  ChevronsUp as ChevronsUpIcon
+  ChevronsUp as ChevronsUpIcon,
+  Paperclip as PaperclipIcon,
+  MessageSquare as MessageIcon
 } from "react-feather";
 import { GetExpensesNodes as ExpenseListItem } from "./generated/types";
 import ExpenseDetails from "./ExpenseDetailsContainer";
@@ -50,6 +52,15 @@ const AmountValue = styled.code`
 `;
 const Amount = styled.div`
   text-align: right;
+`;
+const DetailsElement = styled.span`
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: 0.5rem;
+  svg {
+    margin-left: 0.2rem;
+  }
 `;
 const DetailsButton = styled.button`
   width: 100%;
@@ -108,6 +119,8 @@ function ExpensesListItem({
   amount,
   merchant,
   date,
+  receipts,
+  comment,
   isSkeleton
 }: ExpenseListItem & { isSkeleton?: boolean }) {
   const [showingDetails, setShowingDetails] = React.useState(false);
@@ -149,11 +162,21 @@ function ExpensesListItem({
         onClick={() => setShowingDetails(showingDetails => !showingDetails)}
         disabled={isSkeleton}
       >
-        Details
         {showingDetails ? (
           <ChevronsUpIcon {...iconProps} width="1.5em" height="1.5em" />
         ) : (
           <ChevronsDownIcon {...iconProps} width="1.5em" height="1.5em" />
+        )}
+        Details
+        {!!receipts.length && (
+          <DetailsElement>
+            {receipts.length} <PaperclipIcon {...iconProps} />{" "}
+          </DetailsElement>
+        )}
+        {comment && (
+          <DetailsElement>
+            <MessageIcon {...iconProps} />
+          </DetailsElement>
         )}
       </DetailsButton>
       {showingDetails && (

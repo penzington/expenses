@@ -14,7 +14,9 @@ const expense = {
     currency: "DKK"
   },
   merchant: "Apple Inc.",
-  date: "2018-09-10T02:11:29.184Z"
+  date: "2018-09-10T02:11:29.184Z",
+  receipts: [],
+  comment: ""
 };
 
 const props = {
