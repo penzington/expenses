@@ -1,5 +1,6 @@
 import React from "react";
 import styled, { css, keyframes } from "styled-components";
+import { Trans } from "@lingui/macro";
 import { format } from "date-fns";
 import {
   User as UserIcon,
@@ -140,7 +141,9 @@ function ExpensesListItem({
                 <AmountValue>{amount.value}</AmountValue> {amount.currency}
               </Text>
             </div>{" "}
-            <Text isSkeleton={isSkeleton}>to {merchant}</Text>
+            <Text isSkeleton={isSkeleton}>
+              <Trans>to {merchant}</Trans>
+            </Text>
           </Amount>
         </PrimaryRow>
         <SecondaryRow>
@@ -167,7 +170,7 @@ function ExpensesListItem({
         ) : (
           <ChevronsDownIcon {...iconProps} width="1.5em" height="1.5em" />
         )}
-        Details
+        <Trans>Details</Trans>
         {!!receipts.length && (
           <DetailsElement>
             {receipts.length} <PaperclipIcon {...iconProps} />{" "}

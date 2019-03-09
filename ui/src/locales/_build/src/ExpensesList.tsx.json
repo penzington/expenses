@@ -1,0 +1,34 @@
+{
+  "Failed to load expenses.": {
+    "origin": [
+      [
+        "src/ExpensesList.tsx",
+        35
+      ]
+    ]
+  },
+  "Try again": {
+    "origin": [
+      [
+        "src/ExpensesList.tsx",
+        37
+      ]
+    ]
+  },
+  "Prev Page": {
+    "origin": [
+      [
+        "src/ExpensesList.tsx",
+        60
+      ]
+    ]
+  },
+  "Next Page": {
+    "origin": [
+      [
+        "src/ExpensesList.tsx",
+        63
+      ]
+    ]
+  }
+}

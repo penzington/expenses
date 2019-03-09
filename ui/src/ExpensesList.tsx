@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import { Trans } from "@lingui/macro";
 import { AlertTriangle as AlertIcon } from "react-feather";
 import { GetExpensesNodes as ExpenseListItem } from "./generated/types";
 import ExpensesListItem from "./ExpensesListItem";
@@ -60,8 +61,10 @@ function ExpensesList({
   if (hasFailed) {
     return (
       <Failed>
-        <AlertIcon /> Failed to load expenses.
-        <RetryButton onClick={onRetry}>Try again</RetryButton>
+        <AlertIcon /> <Trans>Failed to load expenses.</Trans>
+        <RetryButton onClick={onRetry}>
+          <Trans>Try again</Trans>
+        </RetryButton>
       </Failed>
     );
   }
@@ -87,10 +90,10 @@ function ExpensesList({
   const ControlButtons = (
     <Controls>
       <Button disabled={!hasPrevPage} onClick={getPrevPage}>
-        Prev Page
+        <Trans>Prev Page</Trans>
       </Button>
       <Button disabled={!hasNextPage} onClick={getNextPage}>
-        Next Page
+        <Trans>Next Page</Trans>
       </Button>
     </Controls>
   );

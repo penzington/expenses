@@ -1,6 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { Provider, createClient } from "urql";
+
 import App from "./App";
 import "./index.css";
 

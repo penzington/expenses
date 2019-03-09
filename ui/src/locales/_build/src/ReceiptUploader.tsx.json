@@ -1,0 +1,18 @@
+{
+  "Go on, drop it!": {
+    "origin": [
+      [
+        "src/ReceiptUploader.tsx",
+        51
+      ]
+    ]
+  },
+  "Drag and drop or click to upload.": {
+    "origin": [
+      [
+        "src/ReceiptUploader.tsx",
+        51
+      ]
+    ]
+  }
+}

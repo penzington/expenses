@@ -1,5 +1,6 @@
 import React from "react";
 import { useDropzone } from "react-dropzone";
+import { Trans } from "@lingui/macro";
 import styled from "styled-components";
 import { GetExpenseReceipts as Receipt } from "./generated/types";
 
@@ -70,9 +71,11 @@ function ReceiptUploader({
       <input {...getInputProps()} accept="image/*;capture=camera" />
       {!uploaded.length && (
         <p>
-          {isDragActive
-            ? "Go on, drop it!"
-            : "Drag and drop or click to upload."}
+          {isDragActive ? (
+            <Trans>Go on, drop it!</Trans>
+          ) : (
+            <Trans>Drag and drop or click to upload.</Trans>
+          )}
         </p>
       )}
     </Dropzone>

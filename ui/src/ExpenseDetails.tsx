@@ -1,5 +1,6 @@
 import React from "react";
 import styled, { keyframes } from "styled-components";
+import { Trans } from "@lingui/macro";
 import {
   Loader as LoaderIcon,
   AlertTriangle as AlertIcon
@@ -86,14 +87,16 @@ function ExpenseDetails({
   if (hasFailed) {
     return (
       <Failed>
-        <AlertIcon /> Failed to load details
+        <AlertIcon /> <Trans>Failed to load details</Trans>
       </Failed>
     );
   }
 
   return (
     <div>
-      <LabelText>Receipts</LabelText>
+      <LabelText>
+        <Trans>Receipts</Trans>
+      </LabelText>
       <Uploader
         id={expense.id}
         onUploadComplete={onUploadComplete}
@@ -107,7 +110,9 @@ function ExpenseDetails({
         }}
       >
         <label>
-          <LabelText>Comment</LabelText>
+          <LabelText>
+            <Trans>Comment</Trans>
+          </LabelText>
           <CommentInput
             name="comment"
             defaultValue={expense.comment}
@@ -115,9 +120,13 @@ function ExpenseDetails({
           />
         </label>
         <Button type="submit" disabled={comment === expense.comment}>
-          Save Comment
+          <Trans>Save Comment</Trans>
         </Button>
-        {hasFailedSaving && <p>Saving comment failed! Please, try again</p>}
+        {hasFailedSaving && (
+          <p>
+            <Trans>Saving comment failed! Please, try again</Trans>
+          </p>
+        )}
       </form>
     </div>
   );

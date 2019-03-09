@@ -1,0 +1,42 @@
+{
+  "Failed to load details": {
+    "origin": [
+      [
+        "src/ExpenseDetails.tsx",
+        59
+      ]
+    ]
+  },
+  "Receipts": {
+    "origin": [
+      [
+        "src/ExpenseDetails.tsx",
+        64
+      ]
+    ]
+  },
+  "Comment": {
+    "origin": [
+      [
+        "src/ExpenseDetails.tsx",
+        74
+      ]
+    ]
+  },
+  "Save Comment": {
+    "origin": [
+      [
+        "src/ExpenseDetails.tsx",
+        79
+      ]
+    ]
+  },
+  "Saving comment failed! Please, try again": {
+    "origin": [
+      [
+        "src/ExpenseDetails.tsx",
+        82
+      ]
+    ]
+  }
+}

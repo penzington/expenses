@@ -1,0 +1,18 @@
+{
+  "to {merchant}": {
+    "origin": [
+      [
+        "src/ExpensesListItem.tsx",
+        120
+      ]
+    ]
+  },
+  "Details": {
+    "origin": [
+      [
+        "src/ExpensesListItem.tsx",
+        141
+      ]
+    ]
+  }
+}
