@@ -2,6 +2,7 @@ import React from "react";
 import { useQuery } from "urql";
 import gql from "graphql-tag";
 import { GetExpensesQuery } from "./generated/types";
+import Uploader from "./Uploader";
 
 const getExpenses = gql`
   query GetExpenses($skip: Int!) {
@@ -27,7 +28,9 @@ const ExpensesList = ({ skip = 10 }) => {
   return (
     <ul>
       {res.data.expenses.map(({ id }: { id: string }) => (
-        <li key={id}>{id}</li>
+        <li key={id}>
+          {id} <Uploader id={id} />
+        </li>
       ))}
     </ul>
   );

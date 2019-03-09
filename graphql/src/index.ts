@@ -18,7 +18,14 @@ const server = new GraphQLServer({
   }
 });
 
-server.express.use(proxy("/upload/*", { target: `${baseURL}` }));
+server.express.use(
+  proxy("/upload/**", {
+    target: baseURL,
+    pathRewrite: {
+      "^/upload/(.*)": "/expenses/$1"
+    }
+  })
+);
 
 const options = {
   port: process.env.PORT || 8000,
