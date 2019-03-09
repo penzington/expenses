@@ -7,13 +7,18 @@ import Uploader from "./Uploader";
 const getExpenses = gql`
   query GetExpenses($skip: Int!) {
     expenses(skip: $skip) {
-      id
-      comment
+      count
+      nodes {
+        id
+        comment
+      }
     }
   }
 `;
 
-const ExpensesList = ({ skip = 10 }) => {
+const PAGE_SIZE = 10;
+const ExpensesList = () => {
+  const [skip, setSkip] = React.useState(0);
   const [res] = useQuery<GetExpensesQuery>({
     query: getExpenses,
     variables: { skip }
@@ -26,20 +31,34 @@ const ExpensesList = ({ skip = 10 }) => {
   }
 
   return (
-    <ul>
-      {res.data.expenses.map(({ id }: { id: string }) => (
-        <li key={id}>
-          {id} <Uploader id={id} />
-        </li>
-      ))}
-    </ul>
+    <>
+      <ul>
+        {res.data.expenses.nodes.map(({ id }: { id: string }) => (
+          <li key={id}>
+            {id} <Uploader id={id} />
+          </li>
+        ))}
+      </ul>
+      <button
+        disabled={skip === 0}
+        onClick={() => setSkip(skip => skip - PAGE_SIZE)}
+      >
+        Prev
+      </button>
+      <button
+        disabled={skip + PAGE_SIZE >= res.data.expenses.count}
+        onClick={() => setSkip(skip => skip + PAGE_SIZE)}
+      >
+        Next
+      </button>
+    </>
   );
 };
 
 const App = () => {
   return (
     <div>
-      <ExpensesList skip={0} />
+      <ExpensesList />
     </div>
   );
 };

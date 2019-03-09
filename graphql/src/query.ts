@@ -5,7 +5,10 @@ const Query = {
     const response = await axios.get(
       `${ctx.baseURL}/expenses?offset=${skip}&limit=${first}`
     );
-    return response.data.expenses;
+    return {
+      nodes: response.data.expenses,
+      count: response.data.total
+    };
   },
   expense: async (parent, { id }, ctx) => {
     const response = await axios.get(`${ctx.baseURL}/expenses/${id}`);

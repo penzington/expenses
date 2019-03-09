@@ -11,10 +11,18 @@ export type GetExpensesVariables = {
 export type GetExpensesQuery = {
   __typename?: "Query";
 
-  expenses: GetExpensesExpenses[];
+  expenses: GetExpensesExpenses;
 };
 
 export type GetExpensesExpenses = {
+  __typename?: "ExpensesPage";
+
+  count: number;
+
+  nodes: GetExpensesNodes[];
+};
+
+export type GetExpensesNodes = {
   __typename?: "Expense";
 
   id: string;
