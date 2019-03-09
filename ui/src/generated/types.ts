@@ -29,6 +29,14 @@ export type GetExpensesNodes = {
   id: string;
 
   comment: string;
+
+  receipts: GetExpensesReceipts[];
+};
+
+export type GetExpensesReceipts = {
+  __typename?: "Receipt";
+
+  url: string;
 };
 
 export type CommentOnExpenseVariables = {

@@ -27,6 +27,8 @@ server.express.use(
   })
 );
 
+server.express.use(proxy("/receipts/**", { target: baseURL }));
+
 const options = {
   port: process.env.PORT || 8000,
   endpoint: "/graphql",

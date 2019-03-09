@@ -3,7 +3,7 @@ import { useDropzone } from "react-dropzone";
 
 type UploaderProps = { id: string };
 function Uploader({ id }: UploaderProps) {
-  const uploadUrl = `${process.env.REACT_APP_UPLOAD_URL}/${id}/receipts`;
+  const uploadUrl = `${process.env.REACT_APP_API_URL}/upload/${id}/receipts`;
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop: async acceptedFiles => {
       const data = new FormData();
@@ -12,8 +12,7 @@ function Uploader({ id }: UploaderProps) {
         method: "POST",
         body: data
       });
-      const body = await response.json();
-      console.log(body);
+      await response.json();
     }
   });
 

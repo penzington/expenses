@@ -2,7 +2,7 @@ import React from "react";
 import { useQuery, useMutation } from "urql";
 import gql from "graphql-tag";
 import {
-  GetExpensesQuery as GetExpensesQueryResponse,
+  GetExpensesQuery,
   GetExpensesVariables,
   CommentOnExpenseVariables,
   CommentOnExpenseMutation
@@ -16,6 +16,9 @@ const getExpensesQuery = gql`
       nodes {
         id
         comment
+        receipts {
+          url
+        }
       }
     }
   }
@@ -56,7 +59,7 @@ function ExpenseComment({ id }: { id: string }) {
 const PAGE_SIZE = 10;
 const ExpensesList = () => {
   const [skip, setSkip] = React.useState(0);
-  const [res] = useQuery<GetExpensesQueryResponse, GetExpensesVariables>({
+  const [res] = useQuery<GetExpensesQuery, GetExpensesVariables>({
     query: getExpensesQuery,
     variables: { skip, first: PAGE_SIZE }
   });
@@ -70,9 +73,12 @@ const ExpensesList = () => {
   return (
     <>
       <ul>
-        {res.data.expenses.nodes.map(({ id, comment }) => (
+        {res.data.expenses.nodes.map(({ id, comment, receipts }) => (
           <li key={id}>
             {id}: {comment}
+            {receipts.map(receipt => (
+              <img src={`${process.env.REACT_APP_API_URL}${receipt.url}`} />
+            ))}
             <Uploader id={id} /> <ExpenseComment id={id} />
           </li>
         ))}
