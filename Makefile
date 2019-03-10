@@ -7,5 +7,8 @@ start-graphql:
 start-ui:
 	cd ui && yarn && yarn start
 
+start-storybook:
+	cd ui && yarn && yarn storybook
+
 dev:
-	make -j4 start-api start-graphql start-ui
+	make -j5 start-api start-graphql start-ui start-storybook
