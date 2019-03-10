@@ -38,15 +38,21 @@ function ReceiptUploader({
   onUploadComplete,
   uploaded
 }: ReceiptUploaderProps) {
-  const uploadUrl = `${process.env.REACT_APP_API_URL}/upload/${id}/receipts`;
+  const uploadUrl = `${
+    process.env.REACT_APP_UPLOAD_URL
+  }/expenses/${id}/receipts`;
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop: async acceptedFiles => {
       const body = new FormData();
       body.append("receipt", acceptedFiles[0]);
-      const response = await fetch(uploadUrl, { method: "POST", body });
-      await response.json();
-      onUploadComplete();
+      try {
+        const response = await fetch(uploadUrl, { method: "POST", body });
+        await response.json();
+        onUploadComplete();
+      } catch (error) {
+        console.error(error);
+      }
     }
   });
 
@@ -58,14 +64,12 @@ function ReceiptUploader({
     >
       {uploaded.map(upload => (
         <ReceiptImage
-          href={`${process.env.REACT_APP_API_URL}${upload.url}`}
+          href={`${process.env.REACT_APP_UPLOAD_URL}${upload.url}`}
           target="_blank"
           onClick={e => e.stopPropagation()}
+          key={upload.url}
         >
-          <img
-            src={`${process.env.REACT_APP_API_URL}${upload.url}`}
-            key={upload.url}
-          />
+          <img src={`${process.env.REACT_APP_UPLOAD_URL}${upload.url}`} />
         </ReceiptImage>
       ))}
       <input {...getInputProps()} accept="image/*;capture=camera" />
